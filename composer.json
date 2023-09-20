@@ -1,0 +1,17 @@
+{
+    "name": "muszika/epub",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Epub\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "muszika"
+        }
+    ],
+    "require": {
+        "ridibooks/epub": "^0.1.0"
+    }
+}
