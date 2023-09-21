@@ -7,7 +7,7 @@ namespace Epub\Service;
 class DownloaderService
 {
     public function __construct(
-        protected string $downloadDir = __DIR__."/../../temp",
+        protected readonly string $downloadDir = __DIR__."/../../temp",
     )
     {}
 

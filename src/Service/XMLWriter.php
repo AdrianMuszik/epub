@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Epub\Service;
 
-class XMLWriter
+class XMLWriter extends FileWriter
 {
-    public function saveArrayAsXML(array $array, string $saveLocation)
+    public function saveArrayAsXML(array $array, string $saveLocation, string $saveFileName = "collected.xml"): void
     {
         $x = new \XMLWriter();
         $x->openMemory();
         $x->startDocument("1.0");
         $this->traverseArray($x, $array);
         $x->endDocument();
-        var_dump($x->outputMemory());
+        $this->saveFile($x, $saveLocation, $saveFileName);
     }
 
-    protected function traverseArray(\XMLWriter $x, array $array)
+    protected function traverseArray(\XMLWriter $x, array $array): void
     {
         foreach($array as $name => $item) {
             $x->startElement($name);
@@ -27,5 +27,17 @@ class XMLWriter
             }
             $x->endElement();
         }
+    }
+
+    protected function saveFile(\XMLWriter $x, string $saveLocation, string $saveFileName): void
+    {
+        $extension = pathinfo($saveFileName, PATHINFO_EXTENSION);
+        $saveFileName .= empty($extension) ? '.xml' : '';
+        $directory = realpath($saveLocation);
+        $filePath = $directory . "/" . $saveFileName;
+        var_dump($filePath);
+        $fh = $this->openFile($filePath, 'w');
+        $this->writeFile($fh, $x->outputMemory());
+        $this->closeFile($fh);
     }
 }
